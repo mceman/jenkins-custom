@@ -1,25 +1,20 @@
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-            echo 'building'
-            echo 'done'}
-        }
-        stage('Test') {
-            steps {
-            echo 'testing'
-            echo 'done'}
-        }
-        stage('Deploy') {
-            steps {
-            echo 'deploying'
-            echo 'done'}
-        }
+// Allocate Build Node
+node('master') {
+    stage("Fetch Source Code") {
+        git 'https://github.com/TrainingByPackt/Beginning-Continuous-Delivery-With-Jenkins'
     }
-    post {
-        always {
-            echo 'post setup'
+
+    dir('Lesson5') {
+        printMessage('Running Pipeline')
+
+        stage("Testing") {
+            sh 'python test_functions.py'
         }
+
+        printMessage('Pipeline Complete')
     }
+}
+
+def printMessage(message) {
+    echo "${message}"
 }
