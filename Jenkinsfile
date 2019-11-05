@@ -13,6 +13,13 @@ node('master') {
 
         printMessage('Pipeline Complete')
     }
+    stage("Deploy") {
+        if (env.BRANCH_NAME=='master') {
+            printMessage('Deploying the master branch')
+        } else {
+            printMessage('No deployment configured for this branch')
+        }
+    }
 }
 
 def printMessage(message) {
